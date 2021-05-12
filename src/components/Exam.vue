@@ -10,16 +10,12 @@
       v-model="selectedSubelement"
       :subelementIDList="subelementIDList"
     />
-    <subelement-description :subelementId="selectedSubelement" />
+    <subelement-description :subelementID="selectedSubelement" />
     <section-selector
       v-model="selectedSectionID"
-      :subelementId="selectedSubelement"
+      :subelementID="selectedSubelement"
     />
-    <!-- TODO: create the question list 
-         props will be just the sectionID and then we get
-         all the questions that have that sectionID         
-    -->
-    <question-list />
+    <question-list :sectionID="selectedSectionID" />
   </div>
 </template>
 
@@ -29,6 +25,7 @@ import utils from "../utils/api";
 import SubelementSelector from "./UI/SubelementSelector";
 import SectionSelector from "./UI/SectionSelector";
 import SubelementDescription from "./UI/SubelementDescription";
+import QuestionList from "./UI/QuestionList";
 
 export default {
   props: ["examName"],
@@ -36,6 +33,7 @@ export default {
     SubelementSelector,
     SectionSelector,
     SubelementDescription,
+    QuestionList,
   },
   data() {
     return {
@@ -43,6 +41,12 @@ export default {
       selectedSubelement: "",
       selectedSectionID: "",
     };
+  },
+  watch: {
+    selectedSubelement() {
+      console.log("changing");
+      this.selectedSectionID = "";
+    },
   },
   methods: {},
   created() {

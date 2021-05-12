@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>Displaying sections for subelement {{ subelementId }}</p>
+    <p>Displaying sections for subelement {{ subelementID }}</p>
     <h3>Selected: {{ value }}</h3>
     <ul class="section-list">
       <li
@@ -18,12 +18,23 @@
 </template>
 
 <script>
+/*
+  <section-selector>
+  This component creates a <select> element that allows you to choose a 
+  section from the subelement. 
+
+  The required prop is the subelementID which is the ID of the subelement
+  used in exam (the ID will probably come from the <subelement-selector> 
+  component). This component will use the subelementID to get all the
+  sections in that subelement from the database.
+*/
+
 import { getSectionsInSubelement } from "../../utils/api";
 
 export default {
   props: {
     value: String,
-    subelementId: String,
+    subelementID: String,
   },
   data() {
     return {
@@ -31,7 +42,7 @@ export default {
     };
   },
   watch: {
-    subelementId() {
+    subelementID() {
       this.updateSectionList();
     },
   },
@@ -40,7 +51,7 @@ export default {
       this.$emit("input", val);
     },
     async updateSectionList() {
-      this.sectionList = await getSectionsInSubelement(this.subelementId);
+      this.sectionList = await getSectionsInSubelement(this.subelementID);
     },
   },
   async created() {

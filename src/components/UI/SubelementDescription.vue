@@ -5,10 +5,17 @@
 </template>
 
 <script>
+/*
+  <subelement-description>
+
+  This component just displays the description of the subelement that is
+  passed in using the subelementID prop.
+*/
+
 import utils from "../../utils/api";
 
 export default {
-  props: ["subelementId"],
+  props: ["subelementID"],
   data() {
     return {
       subelementDescription: "",
@@ -23,7 +30,7 @@ export default {
   methods: {
     async updateSubelementDescription() {
       try {
-        const seData = await utils.getSubelementDetails(this.subelementId);
+        const seData = await utils.getSubelementDetails(this.subelementID);
         this.subelementDescription = seData.subelement_description;
       } catch (e) {
         console.log(
