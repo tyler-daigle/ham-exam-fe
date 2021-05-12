@@ -1,9 +1,14 @@
 const host = "http://localhost";
-const port = 8080;
+const port = 8081;
 const subElementCache = {};
 const sectionCache = {};
 
-export function getSubElements(examName) {
+export default {
+  getSubelementDetails,
+  getSubelements,
+  getSectionsInSubelement
+};
+export function getSubelements(examName) {
   // /exams/examName to get this data
   console.log(examName);
   if (examName === "technician") {
@@ -49,7 +54,7 @@ export function getSubElements(examName) {
   return [];
 }
 
-export async function getSubElementDetails(subElementId) {
+export async function getSubelementDetails(subElementId) {
   // use /subelement/subElementId to get the details  
   if (subElementId in subElementCache) {
     console.log(`Found ${subElementId} in cache`);
@@ -64,7 +69,7 @@ export async function getSubElementDetails(subElementId) {
   }
 }
 
-export async function getSectionsInSubElement(subElementId) {
+export async function getSectionsInSubelement(subElementId) {
   // /sections/subelement/subElementId to get the sections
   if (subElementId in sectionCache) {
     console.log(`Cache hit for sections in subelement ${subElementId}`);

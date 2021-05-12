@@ -11,13 +11,10 @@
       :subelementIDList="subelementIDList"
     />
     <subelement-description :subelementId="selectedSubelement" />
-
-    <!-- TODO: create the v-model for the section-selector  
-      create the actual list - it should be a nice looking
-      list and not a select element.
-    -->
-    <section-selector :subelementId="selectedSubelement" />
-
+    <section-selector
+      v-model="selectedSectionID"
+      :subelementId="selectedSubelement"
+    />
     <!-- TODO: create the question list 
          props will be just the sectionID and then we get
          all the questions that have that sectionID         
@@ -27,6 +24,8 @@
 </template>
 
 <script>
+import utils from "../utils/api";
+
 import SubelementSelector from "./UI/SubelementSelector";
 import SectionSelector from "./UI/SectionSelector";
 import SubelementDescription from "./UI/SubelementDescription";
@@ -40,15 +39,16 @@ export default {
   },
   data() {
     return {
-      subelementIDList: ["T1", "T2", "T3", "T4"],
+      subelementIDList: [],
       selectedSubelement: "",
+      selectedSectionID: "",
     };
   },
   methods: {},
   created() {
     // have to set the subelementIDList based on the
     // name of the exam.
-
+    this.subelementIDList = utils.getSubelements(this.examName);
     // get all the subelements here as well as how
     // many questions from each subelement.
     // The subelement descriptions.

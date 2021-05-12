@@ -4,9 +4,9 @@
       <option
         v-for="subelement in subelementIDList"
         :value="subelement"
-        :key="subelement.id"
+        :key="subelement"
       >
-        Select something
+        Subelement {{ subelement }}
       </option>
     </select>
   </div>
