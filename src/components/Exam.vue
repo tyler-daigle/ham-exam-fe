@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <h2>{{ examName[0].toUpperCase() + examName.slice(1) }} Exam</h2>
+      <h2>{{ fullExamName }} Exam</h2>
       <!-- exam description should go here -->
       <p>Lorem ipsum dolor sit amet.</p>
     </header>
@@ -12,10 +12,16 @@
     />
     <subelement-description :subelementID="selectedSubelement" />
     <section-selector
-      v-model="selectedSectionID"
+      @section-changed="sectionChanged"
       :subelementID="selectedSubelement"
     />
-    <question-list :sectionID="selectedSectionID" />
+
+    <div v-if="selectedSectionID">
+      <question-list :sectionID="selectedSectionID" />
+    </div>
+    <div v-else>
+      <h3>Choose a Section</h3>
+    </div>
   </div>
 </template>
 
@@ -48,7 +54,16 @@ export default {
       this.selectedSectionID = "";
     },
   },
-  methods: {},
+  computed: {
+    fullExamName() {
+      return this.examName[0].toUpperCase() + this.examName.slice(1);
+    },
+  },
+  methods: {
+    sectionChanged(section) {
+      this.selectedSectionID = section;
+    },
+  },
   created() {
     // have to set the subelementIDList based on the
     // name of the exam.

@@ -1,12 +1,12 @@
 <template>
   <div>
     <p>Displaying sections for subelement {{ subelementID }}</p>
-    <h3>Selected: {{ value }}</h3>
+    <h3>Selected: {{ selectedSection }}</h3>
     <ul class="section-list">
       <li
         v-for="section in sectionList"
         class="section-list-item"
-        :class="{ 'selected-item': value === section.section_id }"
+        :class="{ 'selected-item': selectedSection === section.section_id }"
         :key="section.section_id"
         @click="select(section.section_id)"
       >
@@ -32,13 +32,14 @@
 import { getSectionsInSubelement } from "../../utils/api";
 
 export default {
+  emits: ["section-changed"],
   props: {
-    value: String,
     subelementID: String,
   },
   data() {
     return {
       sectionList: [],
+      selectedSection: "",
     };
   },
   watch: {
@@ -48,7 +49,8 @@ export default {
   },
   methods: {
     select(val) {
-      this.$emit("input", val);
+      this.selectedSection = val;
+      this.$emit("section-changed", val);
     },
     async updateSectionList() {
       this.sectionList = await getSectionsInSubelement(this.subelementID);

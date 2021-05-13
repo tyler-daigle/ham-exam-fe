@@ -2,6 +2,7 @@ const host = "http://localhost";
 const port = 8081;
 const subElementCache = {};
 const sectionCache = {};
+const questionCache = {};
 
 export default {
   getSubelementDetails,
@@ -82,4 +83,18 @@ export async function getSectionsInSubelement(subElementId) {
     sectionCache[subElementId] = json;
     return json;
   }
+}
+
+export async function getQuestionsInSection(sectionId) {
+  console.log(sectionId);
+  if (sectionId in questionCache) {
+    console.log(`Got cache hit for questions in section ${sectionId}`);
+    return questionCache[sectionId];
+  }
+  console.log("No cache hit");
+  const res = await fetch(`${host}:${port}/questions/section/${sectionId}`);
+  const questionData = await res.json();
+
+  questionCache[sectionId] = questionData;
+  return questionData;
 }
