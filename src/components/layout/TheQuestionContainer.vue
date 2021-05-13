@@ -1,5 +1,7 @@
 <template>
-  <div id="question-main-container"></div>
+  <div id="question-main-container">
+    <slot></slot>
+  </div>
 </template>
 
 <script>

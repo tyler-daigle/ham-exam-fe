@@ -25,7 +25,9 @@
             <question-list :sectionID="selectedSectionID" />
           </div>
           <div v-else>
-            <h3>Choose a section to display the list of questions.</h3>
+            <h3 class="no-selection">
+              Choose a section to display the list of questions.
+            </h3>
           </div>
         </the-question-container>
       </exam-wrapper>
@@ -42,6 +44,7 @@ import SubelementSelector from "./UI/SubelementSelector";
 import SectionSelector from "./UI/SectionSelector";
 import SubelementDescription from "./UI/SubelementDescription";
 import QuestionList from "./UI/QuestionList";
+import TheQuestionContainer from "./layout/TheQuestionContainer";
 
 export default {
   props: ["examName", "examDescription"],
@@ -52,6 +55,7 @@ export default {
     QuestionList,
     TheSidebar,
     ExamWrapper,
+    TheQuestionContainer,
   },
   data() {
     return {
@@ -103,5 +107,9 @@ export default {
 .exam-description {
   margin: 0 0 1rem 0;
   color: var(--text-color);
+}
+
+.no-selection {
+  text-align: center;
 }
 </style>

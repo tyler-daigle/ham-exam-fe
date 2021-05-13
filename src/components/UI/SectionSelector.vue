@@ -74,7 +74,7 @@ export default {
   padding: 1rem;
   cursor: pointer;
   box-shadow: 4px 4px 4px #dcd9d9;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 }
 
 .section-list-item:hover {
