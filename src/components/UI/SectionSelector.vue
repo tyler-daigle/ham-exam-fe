@@ -69,6 +69,7 @@ export default {
 
 .section-list-item {
   border: solid 1px #ccc9c9;
+  background-color: white;
   margin-bottom: 1rem;
   padding: 1rem;
   cursor: pointer;

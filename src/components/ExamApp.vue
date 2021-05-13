@@ -6,28 +6,38 @@
       <p class="exam-description">{{ examDescription }}</p>
     </header>
 
-    <subelement-selector
-      v-model="selectedSubelement"
-      :subelementIDList="subelementIDList"
-    />
-    <subelement-description :subelementID="selectedSubelement" />
-    <section-selector
-      @section-changed="sectionChanged"
-      :subelementID="selectedSubelement"
-    />
+    <main>
+      <exam-wrapper>
+        <the-sidebar>
+          <subelement-selector
+            v-model="selectedSubelement"
+            :subelementIDList="subelementIDList"
+          />
+          <subelement-description :subelementID="selectedSubelement" />
+          <section-selector
+            @section-changed="sectionChanged"
+            :subelementID="selectedSubelement"
+          />
+        </the-sidebar>
 
-    <div v-if="selectedSectionID">
-      <question-list :sectionID="selectedSectionID" />
-    </div>
-    <div v-else>
-      <h3>Choose a section to display the list of questions.</h3>
-    </div>
+        <the-question-container>
+          <div v-if="selectedSectionID">
+            <question-list :sectionID="selectedSectionID" />
+          </div>
+          <div v-else>
+            <h3>Choose a section to display the list of questions.</h3>
+          </div>
+        </the-question-container>
+      </exam-wrapper>
+    </main>
   </div>
 </template>
 
 <script>
 import utils from "../utils/api";
 
+import ExamWrapper from "../components/layout/ExamWrapper";
+import TheSidebar from "../components/layout/TheSidebar";
 import SubelementSelector from "./UI/SubelementSelector";
 import SectionSelector from "./UI/SectionSelector";
 import SubelementDescription from "./UI/SubelementDescription";
@@ -40,6 +50,8 @@ export default {
     SectionSelector,
     SubelementDescription,
     QuestionList,
+    TheSidebar,
+    ExamWrapper,
   },
   data() {
     return {
