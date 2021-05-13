@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <select :value="value" @input="selectChanged">
+  <div class="subelement-select-container">
+    <label for="subelement-select">Choose A Subelement: </label>
+    <select name="subelement-select" :value="value" @input="selectChanged">
       <option
         v-for="subelement in subelementIDList"
         :value="subelement"
@@ -31,3 +32,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.subelement-select-container {
+  padding: 1rem 0;
+}
+select {
+  font-family: inherit;
+}
+</style>

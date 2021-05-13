@@ -2,7 +2,10 @@
   <div>
     <the-header />
     <exam-wrapper>
-      <exam examName="technician" />
+      <exam
+        examName="technician"
+        examDescription="This is the technician exam."
+      />
     </exam-wrapper>
   </div>
 </template>
@@ -22,4 +25,15 @@ export default {
 </script>
 
 <style>
+:root {
+  --header-color: #14213d;
+  --section-bg-color: #fff;
+  --selected-section-bg-color: #e5e5e5;
+  --text-color: #3a3a3a;
+  --border-color: #14213d;
+}
+body {
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+}
 </style>

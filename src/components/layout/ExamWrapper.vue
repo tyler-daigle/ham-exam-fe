@@ -10,7 +10,6 @@ export default {};
 
 <style scoped>
 .exam-wrapper {
-  padding: 2rem 2rem;
-  border: solid 1px black;
+  /* padding: 2rem 2rem; */
 }
 </style>

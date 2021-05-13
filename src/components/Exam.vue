@@ -1,9 +1,9 @@
 <template>
   <div>
-    <header>
-      <h2>{{ fullExamName }} Exam</h2>
+    <header class="exam-header">
+      <h2 class="exam-name">{{ fullExamName }} Exam</h2>
       <!-- exam description should go here -->
-      <p>Lorem ipsum dolor sit amet.</p>
+      <p class="exam-description">{{ examDescription }}</p>
     </header>
 
     <subelement-selector
@@ -34,7 +34,7 @@ import SubelementDescription from "./UI/SubelementDescription";
 import QuestionList from "./UI/QuestionList";
 
 export default {
-  props: ["examName"],
+  props: ["examName", "examDescription"],
   components: {
     SubelementSelector,
     SectionSelector,
@@ -78,3 +78,18 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.exam-header {
+  text-align: center;
+}
+.exam-name {
+  color: var(--header-color);
+  margin: 0;
+}
+
+.exam-description {
+  margin: 0 0 1rem 0;
+  color: var(--text-color);
+}
+</style>
