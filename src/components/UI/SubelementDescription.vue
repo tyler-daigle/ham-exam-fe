@@ -1,6 +1,6 @@
 <template>
   <div class="subelement-description-container">
-    <h2 class="subelement-header">Subelement {{ subelementID }}</h2>
+    <!-- <h2 class="subelement-header">Subelement {{ subelementID }}</h2> -->
     <p class="subelement-description">{{ subelementDescription }}</p>
   </div>
 </template>
@@ -51,9 +51,9 @@ export default {
 <style scoped>
 .subelement-description-container {
   text-align: center;
-  border: solid 1px #f0b962;
-  padding: 10px;
-  background-color: #f3c57c;
+  /* border: solid 1px #f0b962; */
+  /* padding: 10px; */
+  /* background-color: #f3c57c; */
   /* box-shadow: 3px 3px 2px #f0b962; */
 }
 .subelement-header {
@@ -63,6 +63,6 @@ export default {
 .subelement-description {
   color: var(--text-color);
   margin: 0;
-  font-weight: 300;
+  font-weight: bold;
 }
 </style>

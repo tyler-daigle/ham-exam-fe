@@ -1,25 +1,21 @@
 <template>
   <div>
     <the-header />
-    <exam-wrapper>
-      <exam
-        examName="technician"
-        examDescription="This is the technician exam."
-      />
-    </exam-wrapper>
+    <exam-app
+      examName="technician"
+      examDescription="This is the technician exam."
+    />
   </div>
 </template>
 
 <script>
-import TheHeader from "./components/UI/TheHeader";
-import ExamWrapper from "./components/layout/ExamWrapper";
-import Exam from "./components/Exam";
+import TheHeader from "./components/layout/TheHeader";
+import ExamApp from "./components/ExamApp";
 
 export default {
   components: {
     TheHeader,
-    ExamWrapper,
-    Exam,
+    ExamApp,
   },
 };
 </script>
@@ -33,6 +29,7 @@ export default {
   --border-color: #14213d;
 }
 body {
+  box-sizing: border-box;
   font-size: 16px;
   font-family: "Poppins", sans-serif;
 }
