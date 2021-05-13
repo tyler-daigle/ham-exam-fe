@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>
-      <span class="question-id">{{ questionData.id }}</span>
+      <span class="question-id">[{{ questionData.id }}]</span>
       {{ questionData.question_text }}
     </p>
     <ol class="choices-list">
