@@ -8,9 +8,18 @@
         :key="section.section_id"
         @click="select(section.section_id)"
       >
-        <h3 class="section-header">Section {{ section.section_id }}</h3>
+        <header>
+          <span
+            v-if="sectionCompleted(section.section_id)"
+            class="selected-questions"
+            ><span class="material-icons">check_box</span></span
+          >
+          <span v-else class="selected-questions"
+            ><span class="material-icons">check_box_outline_blank</span></span
+          >
+          <h3 class="section-header">Section {{ section.section_id }}</h3>
+        </header>
         <p class="section-description">{{ section.section_description }}</p>
-        <span class="selected-questions">1 Question Selected</span>
       </li>
     </ul>
   </div>
@@ -32,6 +41,7 @@ import { getSectionsInSubelement } from "../../utils/api";
 
 export default {
   emits: ["section-changed"],
+  inject: ["selectedQuestions"],
   props: {
     subelementID: String,
   },
@@ -54,7 +64,14 @@ export default {
     async updateSectionList() {
       this.sectionList = await getSectionsInSubelement(this.subelementID);
     },
+    sectionCompleted(sectionID) {
+      return (
+        this.selectedQuestions[sectionID] &&
+        this.selectedQuestions[sectionID] !== ""
+      );
+    },
   },
+
   async created() {
     this.updateSectionList();
   },
@@ -62,6 +79,13 @@ export default {
 </script>
 
 <style scoped>
+header {
+  display: flex;
+  align-items: center;
+}
+header span {
+  display: block;
+}
 .section-list {
   list-style-type: none;
   padding: 0;
@@ -86,7 +110,7 @@ export default {
 }
 
 .section-header {
-  margin: 0;
+  margin: 0 0.5rem;
   font-weight: 400;
   color: var(--header-color);
 }

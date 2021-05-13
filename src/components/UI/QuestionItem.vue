@@ -1,5 +1,12 @@
 <template>
   <div>
+    <span
+      @click="selectQuestion"
+      class="add-question-selector"
+      :class="selected ? 'selected-question' : 'unselected-question'"
+    >
+      <span class="material-icons">add_circle_outline</span>
+    </span>
     <p>
       <span class="question-id">[{{ questionData.id }}]</span>
       {{ questionData.question_text }}
@@ -27,13 +34,33 @@
   from the api.
 */
 export default {
+  emits: ["question-selected"],
   props: {
     questionData: Object,
+    selected: Boolean,
+  },
+
+  methods: {
+    selectQuestion() {
+      this.$emit("question-selected", this.questionData.id);
+    },
   },
 };
 </script>
 
 <style scoped>
+.add-question-selector {
+  cursor: pointer;
+  display: block;
+  margin-top: 10px;
+  text-align: right;
+}
+.unselected-question {
+  color: #e5e5e5;
+}
+.selected-question {
+  color: green;
+}
 .choices-list {
   padding: 0;
   list-style-type: none;

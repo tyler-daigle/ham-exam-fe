@@ -62,6 +62,7 @@ export default {
       subelementIDList: [],
       selectedSubelement: "",
       selectedSectionID: "",
+      selectedQuestions: {},
     };
   },
   watch: {
@@ -75,9 +76,35 @@ export default {
       return this.examName[0].toUpperCase() + this.examName.slice(1);
     },
   },
+  provide() {
+    return {
+      selectedQuestions: this.selectedQuestions,
+      selectQuestion: this.selectQuestion,
+      unselectQuestion: this.unselectQuestion,
+    };
+  },
   methods: {
     sectionChanged(section) {
       this.selectedSectionID = section;
+    },
+    selectQuestion(questionID) {
+      // question IDs look like: T1A03
+      // T1A is the section which is what will be used as the property name in the object.
+      // This way only one question from each section can be added which is the way the
+      // license exams work - one question from each section.
+      if (!questionID) {
+        console.log(`Tried adding a blank questionID`);
+        return;
+      }
+
+      const section = questionID.slice(0, 3);
+      console.log(`Selecting question ${questionID} in section ${section}.`);
+      this.selectedQuestions[section] = questionID;
+      console.log(this.selectedQuestions);
+    },
+    unselectQuestion(questionID) {
+      console.log(`Unselecting ${questionID}`);
+      this.selectedQuestions[questionID.slice(0, 3)] = "";
     },
   },
   created() {

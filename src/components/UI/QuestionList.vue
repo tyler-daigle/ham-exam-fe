@@ -6,7 +6,11 @@
         v-for="question in questionList"
         :key="question.id"
       >
-        <question-item :questionData="question" />
+        <question-item
+          @question-selected="questionSelected"
+          :questionData="question"
+          :selected="selectedQuestion === question.id"
+        />
       </li>
     </ul>
     <p>End of questions for section {{ sectionID }}.</p>
@@ -40,9 +44,11 @@ export default {
   components: {
     QuestionItem,
   },
+  inject: ["selectedQuestions", "selectQuestion", "unselectQuestion"],
   data() {
     return {
       questionList: [],
+      selectedQuestion: "",
     };
   },
   created() {
@@ -52,8 +58,18 @@ export default {
       this.updateQuestionList();
     }
   },
+  updated() {
+    // have to keep track of when this component is updated. Otherwise the
+    // selected question won't be changed when a new subelement is
+    // selected. The selected question won't be marked until you
+    // switch to a second section.
+    this.selectedQuestion = this.selectedQuestions[this.sectionID];
+  },
   watch: {
     sectionID() {
+      // watch for changes to the sectionID - when it occurs the selectedQuestion has
+      // to change.
+      this.selectedQuestion = this.selectedQuestions[this.sectionID];
       this.updateQuestionList();
     },
   },
@@ -61,6 +77,22 @@ export default {
     async updateQuestionList() {
       console.log(`Getting questions for section ${this.sectionID}.`);
       this.questionList = await getQuestionsInSection(this.sectionID);
+    },
+    questionSelected(questionID) {
+      // event handler for when a <question-item> is selected
+      // The question is either selected or unselected.
+
+      console.log(this.selectedQuestions, this.sectionID);
+      console.log(`Current selected: ${this.selectedQuestion}`);
+
+      // check if the question was already selected
+      if (this.selectedQuestion === questionID) {
+        this.unselectQuestion(questionID);
+        this.selectedQuestion = "";
+      } else {
+        this.selectedQuestion = questionID;
+        this.selectQuestion(questionID);
+      }
     },
   },
 };
