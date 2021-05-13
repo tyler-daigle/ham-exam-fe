@@ -50,6 +50,7 @@ export default {
 
 <style scoped>
 .subelement-description-container {
+  text-align: center;
   border: solid 1px #f0b962;
   padding: 10px;
   background-color: #f3c57c;

@@ -1,20 +1,15 @@
 <template>
-  <div>
-    <div v-if="sectionID">
-      <header>
-        <h2>Questions for section {{ sectionID }}.</h2>
-        <question-item
-          v-for="question in questionList"
-          :key="question.id"
-          :questionData="question"
-        />
-      </header>
-    </div>
-    <div v-else>
-      <header>
-        <h2>Choose a section</h2>
-      </header>
-    </div>
+  <div class="question-list-container">
+    <ul class="question-list">
+      <li
+        class="question-list-item"
+        v-for="question in questionList"
+        :key="question.id"
+      >
+        <question-item :questionData="question" />
+      </li>
+    </ul>
+    <p>End of questions for section {{ sectionID }}.</p>
   </div>
 </template>
 
@@ -37,7 +32,10 @@ import QuestionItem from "./QuestionItem";
 
 export default {
   props: {
-    sectionID: String,
+    sectionID: {
+      type: String,
+      required: true,
+    },
   },
   components: {
     QuestionItem,
@@ -67,3 +65,20 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.question-list-container {
+  border: solid 1px #ccc9c9;
+  padding: 1rem;
+}
+
+.question-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.question-list-item {
+  border-bottom: solid 1px #ccc9c9;
+  padding-bottom: 1rem;
+}
+</style>

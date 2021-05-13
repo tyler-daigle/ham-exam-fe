@@ -1,7 +1,5 @@
 <template>
   <div>
-    <p>Displaying sections for subelement {{ subelementID }}</p>
-    <h3>Selected: {{ selectedSection }}</h3>
     <ul class="section-list">
       <li
         v-for="section in sectionList"
@@ -10,8 +8,9 @@
         :key="section.section_id"
         @click="select(section.section_id)"
       >
-        <h4>Section {{ section.section_id }}</h4>
-        <p>{{ section.section_description }}</p>
+        <h3 class="section-header">Section {{ section.section_id }}</h3>
+        <p class="section-description">{{ section.section_description }}</p>
+        <span class="selected-questions">1 Question Selected</span>
       </li>
     </ul>
   </div>
@@ -69,13 +68,36 @@ export default {
 }
 
 .section-list-item {
-  border: solid 1px #ccc;
+  border: solid 1px #ccc9c9;
   margin-bottom: 1rem;
-  padding: 10px;
+  padding: 1rem;
   cursor: pointer;
+  box-shadow: 4px 4px 4px #dcd9d9;
+  border-radius: 10px;
+}
+
+.section-list-item:hover {
+  background-color: #e6e6e6;
 }
 
 .selected-item {
-  background-color: #ccc;
+  background-color: #e6e6e6;
+}
+
+.section-header {
+  margin: 0;
+  font-weight: 400;
+  color: var(--header-color);
+}
+
+.section-description {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 300;
+}
+
+.selected-questions {
+  color: #0a5511;
+  font-weight: 300;
 }
 </style>

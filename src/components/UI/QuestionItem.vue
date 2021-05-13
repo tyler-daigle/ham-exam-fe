@@ -8,9 +8,11 @@
       <li
         v-for="(choiceText, choiceKey) in questionData.choices"
         :key="questionData.id + choiceKey"
+        class="question-choice"
         :class="{ 'question-answer': choiceKey === questionData.answer }"
       >
-        {{ choiceKey }}. {{ choiceText }}
+        <span> {{ choiceKey }}.</span>
+        {{ choiceText }}
       </li>
     </ol>
   </div>
@@ -37,7 +39,13 @@ export default {
   list-style-type: none;
 }
 
+.question-choice {
+  font-size: 0.85rem;
+  font-weight: 300;
+}
 .question-answer {
-  background-color: red;
+  color: #45c434;
+  font-weight: 500;
+  /* border: solid 1px #7ad66e; */
 }
 </style>

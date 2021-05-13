@@ -20,7 +20,7 @@
       <question-list :sectionID="selectedSectionID" />
     </div>
     <div v-else>
-      <h3>Choose a Section</h3>
+      <h3>Choose a section to display the list of questions.</h3>
     </div>
   </div>
 </template>
