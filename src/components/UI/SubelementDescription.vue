@@ -22,7 +22,8 @@ export default {
     };
   },
   watch: {
-    subelementId() {
+    subelementID() {
+      // whenever the subelementID changes
       console.log("Subelement id changed");
       this.updateSubelementDescription();
     },

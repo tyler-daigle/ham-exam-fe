@@ -28,6 +28,11 @@ import QuestionItem from "./QuestionItem";
   passed as a prop.
 
   Uses the /questions/section/:sectionId route of the API.
+
+  The list of questions is made up of <question-item>
+  components. <question-item> takes a question object (the
+  same object that is returned by the api) to display
+  the question.
 */
 
 export default {

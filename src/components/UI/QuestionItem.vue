@@ -17,6 +17,13 @@
 </template>
 
 <script>
+/*
+  <question-item> displays the question along with its
+  choices.
+
+  The prop is the question object that will be returned 
+  from the api.
+*/
 export default {
   props: {
     questionData: Object,
