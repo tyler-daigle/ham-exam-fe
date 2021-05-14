@@ -8,6 +8,7 @@
         :sectionID="section.section_id"
         :sectionDescription="section.section_description"
         :selected="selectedSection === section.section_id"
+        :done="isSectionDone(section.section_id)"
       >
       </section-item>
     </ul>
@@ -39,6 +40,10 @@ export default {
       type: String,
       required: true,
     },
+    selectedQuestions: {
+      type: Object,
+      required: true,
+    },
   },
   components: {
     SectionItem,
@@ -48,6 +53,15 @@ export default {
       console.log(`Section ${sectionID} clicked.`);
       this.changeSectionHandler(sectionID);
     },
+    isSectionDone(sectionID) {
+      // a section is done if any question is selected.
+      // just make sure it's not === "" which means the question
+      // was unselected and one hasn't be reselected again.
+      if (sectionID in this.selectedQuestions) {
+        return this.selectedQuestions[sectionID] !== "";
+      }
+      return false;
+    },
   },
   created() {
     console.log(`First: ${this.selectedSection}`);
@@ -56,13 +70,6 @@ export default {
 </script>
 
 <style scoped>
-header {
-  display: flex;
-  align-items: center;
-}
-header span {
-  display: block;
-}
 .section-list {
   list-style-type: none;
   padding: 0;

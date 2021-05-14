@@ -1,6 +1,7 @@
 <template>
   <div>
     <span
+      @click="$emit('question-clicked')"
       class="add-question-selector"
       :class="selected ? 'selected-question' : 'unselected-question'"
     >

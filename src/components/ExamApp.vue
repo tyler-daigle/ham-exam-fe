@@ -18,12 +18,17 @@
             :sections="currentSectionList"
             :changeSectionHandler="changeSection"
             :selectedSection="selectedSection"
+            :selectedQuestions="selectedQuestions"
           />
         </the-sidebar>
 
         <the-question-container>
           <div v-if="selectedSection && selectedSection !== ''">
-            <question-list :questionList="questionList" />
+            <question-list
+              :questionList="questionList"
+              :selectedQuestions="selectedQuestions"
+              :selectQuestionHandler="selectQuestion"
+            />
           </div>
           <div v-else>
             <h3 class="no-selection">
@@ -73,6 +78,14 @@ export default {
       // selected section (selectedSection). The questions come from
       // getQuestionsInSection() from api.js
       questionList: [],
+      // selectedQuestion is an Object containing the selected question in
+      // each section. Most exams only select one question from each section,
+      // although it isn't required to do so it is how this app will do it.
+      // the object will look like: {T1A: "T1A02", T1B: "T1B04",...} Each
+      // section will be the key and the selected question will be the value.
+      // This way only one question can be selected from each section.
+      // To unselect a question just set the section to ""
+      selectedQuestions: {},
     };
   },
   computed: {
@@ -94,6 +107,35 @@ export default {
         this.selectedSubelement
       );
     },
+    selectQuestion(questionID) {
+      const sectionID = questionID.slice(0, 3);
+
+      console.log(questionID);
+      // check if the question that was just selected was the question that
+      // was already selected - if so we set the value to ""
+      // Just adding a property to the object will not trigger Vue's reactivity
+      // so a new object must be created each time.
+      if (sectionID in this.selectedQuestions) {
+        let val;
+        if (this.selectedQuestions[sectionID] === questionID) {
+          val = ""; //unselect the already selected question
+        } else {
+          val = questionID;
+        }
+        this.selectedQuestions = {
+          ...this.selectedQuestions,
+          [sectionID]: val,
+        };
+      } else {
+        // the section key isn't in the object yet, so it can
+        // just be set as the selected question.
+        this.selectedQuestions = {
+          ...this.selectedQuestions,
+          [sectionID]: questionID,
+        };
+      }
+      console.log(Object.values(this.selectedQuestions));
+    },
   },
   watch: {
     selectedSubelement() {
@@ -101,6 +143,9 @@ export default {
       // also the current selected section has to be reset.
       this.updateSectionList();
       this.selectedSection = "";
+    },
+    selectedQuestions() {
+      console.log(this.selectedQuestions);
     },
   },
   async created() {

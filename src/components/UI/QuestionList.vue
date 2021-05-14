@@ -6,7 +6,11 @@
         v-for="question in questionList"
         :key="question.id"
       >
-        <question-item :questionData="question" :selected="false" />
+        <question-item
+          @question-clicked="questionClickedHandler(question.id)"
+          :questionData="question"
+          :selected="isSelected(question.id)"
+        />
       </li>
     </ul>
     <p>End of questions.</p>
@@ -26,9 +30,31 @@ export default {
       type: Array,
       required: true,
     },
+    selectedQuestions: {
+      type: Object,
+      required: true,
+    },
+    selectQuestionHandler: {
+      type: Function,
+      required: true,
+    },
   },
+
   components: {
     QuestionItem,
+  },
+  methods: {
+    questionClickedHandler(questionID) {
+      this.selectQuestionHandler(questionID);
+    },
+    isSelected(questionID) {
+      const section = questionID.slice(0, 3);
+      if (section in this.selectedQuestions) {
+        return this.selectedQuestions[section] === questionID;
+      } else {
+        return false;
+      }
+    },
   },
 };
 </script>

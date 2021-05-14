@@ -5,6 +5,12 @@
     :class="{ 'selected-item': selected }"
   >
     <header>
+      <span v-if="done" class="selected-questions"
+        ><span class="material-icons">check_box</span></span
+      >
+      <span v-else class="selected-questions"
+        ><span class="material-icons">check_box_outline_blank</span></span
+      >
       <h3 class="section-header">Section {{ sectionID }}</h3>
     </header>
     <p class="section-description">{{ sectionDescription }}</p>
@@ -17,19 +23,23 @@ export default {
     sectionID: String,
     sectionDescription: String,
     selected: Boolean,
+    done: Boolean,
   },
   methods: {
     sectionClicked() {
-      console.log(`Section ${this.sectionID} clicked`);
       this.$emit("section-clicked", this.sectionID);
     },
-  },
-  created() {
-    console.log(`Section ${this.sectionID}: ${this.selected}`);
   },
 };
 </script>
 <style scoped>
+header {
+  display: flex;
+  align-items: center;
+}
+header span {
+  display: block;
+}
 .section-list-item {
   border: solid 1px #ccc9c9;
   background-color: white;
