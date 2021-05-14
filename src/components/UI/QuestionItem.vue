@@ -1,7 +1,6 @@
 <template>
   <div>
     <span
-      @click="selectQuestion"
       class="add-question-selector"
       :class="selected ? 'selected-question' : 'unselected-question'"
     >
@@ -34,16 +33,9 @@
   from the api.
 */
 export default {
-  emits: ["question-selected"],
   props: {
     questionData: Object,
     selected: Boolean,
-  },
-
-  methods: {
-    selectQuestion() {
-      this.$emit("question-selected", this.questionData.id);
-    },
   },
 };
 </script>

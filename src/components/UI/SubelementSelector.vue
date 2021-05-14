@@ -21,6 +21,9 @@
   each subelement from the exam. It requires a list of the subelement IDs.
   These IDs are stored in the database and are loaded by calling
   getSubElements() from api.js. 
+
+  <subelement-selector> is setup to use the v-model, which might be kind of
+  pointless but it works for now.
 */
 export default {
   props: ["subelementIDList", "value"],

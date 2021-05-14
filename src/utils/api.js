@@ -7,7 +7,8 @@ const questionCache = {};
 export default {
   getSubelementDetails,
   getSubelements,
-  getSectionsInSubelement
+  getSectionsInSubelement,
+  getQuestionsInSection
 };
 export function getSubelements(examName) {
   // /exams/examName to get this data

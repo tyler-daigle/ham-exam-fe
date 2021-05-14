@@ -14,15 +14,16 @@
             :subelementIDList="subelementIDList"
           />
           <subelement-description :subelementID="selectedSubelement" />
-          <section-selector
-            @section-changed="sectionChanged"
-            :subelementID="selectedSubelement"
+          <section-list
+            :sections="currentSectionList"
+            :changeSectionHandler="changeSection"
+            :selectedSection="selectedSection"
           />
         </the-sidebar>
 
         <the-question-container>
-          <div v-if="selectedSectionID">
-            <question-list :sectionID="selectedSectionID" />
+          <div v-if="selectedSection && selectedSection !== ''">
+            <question-list :questionList="questionList" />
           </div>
           <div v-else>
             <h3 class="no-selection">
@@ -41,7 +42,7 @@ import utils from "../utils/api";
 import ExamWrapper from "../components/layout/ExamWrapper";
 import TheSidebar from "../components/layout/TheSidebar";
 import SubelementSelector from "./UI/SubelementSelector";
-import SectionSelector from "./UI/SectionSelector";
+import SectionList from "./UI/SectionList";
 import SubelementDescription from "./UI/SubelementDescription";
 import QuestionList from "./UI/QuestionList";
 import TheQuestionContainer from "./layout/TheQuestionContainer";
@@ -50,8 +51,8 @@ export default {
   props: ["examName", "examDescription"],
   components: {
     SubelementSelector,
-    SectionSelector,
     SubelementDescription,
+    SectionList,
     QuestionList,
     TheSidebar,
     ExamWrapper,
@@ -59,65 +60,57 @@ export default {
   },
   data() {
     return {
+      // subelementIDList - Array of subelements - set in create()
       subelementIDList: [],
+      // selectedSubelement is used for the v-model with the <subelement-selector>. changes when
+      // the user selects a different subelement. Also used by <subelement-description> to display
+      // the descriptions.
       selectedSubelement: "",
-      selectedSectionID: "",
-      selectedQuestions: {},
+      // currentSectionList is an Array of the sections that are currently being displayed
+      currentSectionList: [],
+      selectedSection: "", // the section that has been selected
+      // questionList is an Array of the questions that are in the currently
+      // selected section (selectedSection). The questions come from
+      // getQuestionsInSection() from api.js
+      questionList: [],
     };
-  },
-  watch: {
-    selectedSubelement() {
-      console.log("changing");
-      this.selectedSectionID = "";
-    },
   },
   computed: {
     fullExamName() {
       return this.examName[0].toUpperCase() + this.examName.slice(1);
     },
   },
-  provide() {
-    return {
-      selectedQuestions: this.selectedQuestions,
-      selectQuestion: this.selectQuestion,
-      unselectQuestion: this.unselectQuestion,
-    };
-  },
   methods: {
-    sectionChanged(section) {
-      this.selectedSectionID = section;
+    // changeSection() is the handler passed down to SectionList and is
+    // triggered when a section is selected. It passes the sectionID of
+    // the section that was clicked.
+    async changeSection(sectionID) {
+      this.selectedSection = sectionID;
+      // section changes so the question list has to be updated.
+      this.questionList = await utils.getQuestionsInSection(sectionID);
     },
-    selectQuestion(questionID) {
-      // question IDs look like: T1A03
-      // T1A is the section which is what will be used as the property name in the object.
-      // This way only one question from each section can be added which is the way the
-      // license exams work - one question from each section.
-      if (!questionID) {
-        console.log(`Tried adding a blank questionID`);
-        return;
-      }
-
-      const section = questionID.slice(0, 3);
-      console.log(`Selecting question ${questionID} in section ${section}.`);
-      this.selectedQuestions[section] = questionID;
-      console.log(this.selectedQuestions);
-    },
-    unselectQuestion(questionID) {
-      console.log(`Unselecting ${questionID}`);
-      this.selectedQuestions[questionID.slice(0, 3)] = "";
+    async updateSectionList() {
+      this.currentSectionList = await utils.getSectionsInSubelement(
+        this.selectedSubelement
+      );
     },
   },
-  created() {
-    // have to set the subelementIDList based on the
-    // name of the exam.
+  watch: {
+    selectedSubelement() {
+      // if the subelement selection changes the section list must be updated.
+      // also the current selected section has to be reset.
+      this.updateSectionList();
+      this.selectedSection = "";
+    },
+  },
+  async created() {
+    // Get the list of subelements based on the name of the exam.
+    // Set the first subelement to be the selected one.
     this.subelementIDList = utils.getSubelements(this.examName);
-    // get all the subelements here as well as how
-    // many questions from each subelement.
-    // The subelement descriptions.
-    // don't need the sections in each subelement because
-    // the <section-selector> will handle displaying
-    // the sections, all it needs is the subelement id.
     this.selectedSubelement = this.subelementIDList[0];
+
+    // get the initial sections for the first selected subelement
+    this.updateSectionList();
   },
 };
 </script>
