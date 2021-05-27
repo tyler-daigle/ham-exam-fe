@@ -1,10 +1,18 @@
 <template>
   <nav>
     <ul class="main-nav-list">
-      <li class="main-nav-item selected" @click="$emit('viewQuestions')">
+      <li
+        class="main-nav-item"
+        :class="{ selected: selected === 0 }"
+        @click="$emit('viewQuestions')"
+      >
         Question Selector
       </li>
-      <li class="main-nav-item" @click="$emit('viewSelected')">
+      <li
+        class="main-nav-item"
+        :class="{ selected: selected === 1 }"
+        @click="$emit('viewSelected')"
+      >
         View Selected Questions
       </li>
     </ul>
@@ -14,6 +22,12 @@
 <script>
 export default {
   emits: ["viewQuestions", "viewSelected"],
+  props: ["selected"],
+  data() {
+    return {
+      selectedItem: 0,
+    };
+  },
 };
 </script>
 

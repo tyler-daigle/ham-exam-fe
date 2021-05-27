@@ -7,39 +7,47 @@
       <the-main-toolbar
         @viewQuestions="showQuestionSelector"
         @viewSelected="showSelectedQuestions"
+        :selected="questionSelectorVisible ? 0 : 1"
       />
     </header>
 
     <main>
       <exam-wrapper>
-        <the-sidebar>
-          <subelement-selector
-            v-model="selectedSubelement"
-            :subelementIDList="subelementIDList"
-          />
-          <subelement-description :subelementID="selectedSubelement" />
-          <section-list
-            :sections="currentSectionList"
-            :changeSectionHandler="changeSection"
-            :selectedSection="selectedSection"
-            :selectedQuestions="selectedQuestions"
-          />
-        </the-sidebar>
-
-        <the-question-container>
-          <div v-if="selectedSection && selectedSection !== ''">
-            <question-list
-              :questionList="questionList"
-              :selectedQuestions="selectedQuestions"
-              :selectQuestionHandler="selectQuestion"
+        <template v-if="questionSelectorVisible">
+          <the-sidebar>
+            <subelement-selector
+              v-model="selectedSubelement"
+              :subelementIDList="subelementIDList"
             />
-          </div>
-          <div v-else>
-            <h3 class="no-selection">
-              Choose a section to display the list of questions.
-            </h3>
-          </div>
-        </the-question-container>
+            <subelement-description :subelementID="selectedSubelement" />
+            <section-list
+              :sections="currentSectionList"
+              :changeSectionHandler="changeSection"
+              :selectedSection="selectedSection"
+              :selectedQuestions="selectedQuestions"
+            />
+          </the-sidebar>
+
+          <the-question-container>
+            <div v-if="selectedSection && selectedSection !== ''">
+              <question-list
+                :questionList="questionList"
+                :selectedQuestions="selectedQuestions"
+                :selectQuestionHandler="selectQuestion"
+              />
+            </div>
+            <div v-else>
+              <h3 class="no-selection">
+                Choose a section to display the list of questions.
+              </h3>
+            </div>
+          </the-question-container>
+        </template>
+        <!-- end of v-if questionSelectorVisible -->
+
+        <template v-else>
+          <h1>Showing selected questions</h1>
+        </template>
       </exam-wrapper>
     </main>
   </div>
@@ -92,6 +100,8 @@ export default {
       // This way only one question can be selected from each section.
       // To unselect a question just set the section to ""
       selectedQuestions: {},
+      questionSelectorVisible: true,
+      selectedQuestionsVisible: false,
     };
   },
   computed: {
@@ -143,10 +153,12 @@ export default {
       console.log(Object.values(this.selectedQuestions));
     },
     showSelectedQuestions() {
-      console.log("Showing selected questions");
+      this.selectedQuestionsVisible = true;
+      this.questionSelectorVisible = false;
     },
     showQuestionSelector() {
-      console.log("Showing question selector");
+      this.selectedQuestionsVisible = false;
+      this.questionSelectorVisible = true;
     },
   },
   watch: {
