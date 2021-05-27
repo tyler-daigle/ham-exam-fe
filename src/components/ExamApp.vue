@@ -4,6 +4,10 @@
       <h2 class="exam-name">{{ fullExamName }} Exam</h2>
       <!-- exam description should go here -->
       <p class="exam-description">{{ examDescription }}</p>
+      <the-main-toolbar
+        @viewQuestions="showQuestionSelector"
+        @viewSelected="showSelectedQuestions"
+      />
     </header>
 
     <main>
@@ -51,6 +55,7 @@ import SectionList from "./UI/SectionList";
 import SubelementDescription from "./UI/SubelementDescription";
 import QuestionList from "./UI/QuestionList";
 import TheQuestionContainer from "./layout/TheQuestionContainer";
+import TheMainToolbar from "./UI/TheMainToolbar";
 
 export default {
   props: ["examName", "examDescription"],
@@ -62,6 +67,7 @@ export default {
     TheSidebar,
     ExamWrapper,
     TheQuestionContainer,
+    TheMainToolbar,
   },
   data() {
     return {
@@ -136,6 +142,12 @@ export default {
       }
       console.log(Object.values(this.selectedQuestions));
     },
+    showSelectedQuestions() {
+      console.log("Showing selected questions");
+    },
+    showQuestionSelector() {
+      console.log("Showing question selector");
+    },
   },
   watch: {
     selectedSubelement() {
@@ -162,14 +174,15 @@ export default {
 
 <style scoped>
 .exam-header {
-  text-align: center;
 }
 .exam-name {
   color: var(--header-color);
+  text-align: center;
   margin: 0;
 }
 
 .exam-description {
+  text-align: center;
   margin: 0 0 1rem 0;
   color: var(--text-color);
 }

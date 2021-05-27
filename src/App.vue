@@ -2,7 +2,7 @@
   <div>
     <the-header />
     <exam-app
-      examName="technician"
+      examName="general"
       examDescription="This is the technician exam."
     />
   </div>
