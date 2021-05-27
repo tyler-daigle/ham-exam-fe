@@ -54,6 +54,12 @@
 </template>
 
 <script>
+// TODO: Create the component that will show the selected questions. selectedQuestions contains the questions that
+// have been selected but it only contains the question IDs. Will have to query to api to get the actual question data.
+// Should be able to use QuestionList component to display the questions after creating the actual question objects.
+// Might have to add another route to the api that lets you get a list of questions by passing the ID of the question.
+// Otherwise we will have to do an api request for every single question that is selected.
+
 import utils from "../utils/api";
 
 import ExamWrapper from "../components/layout/ExamWrapper";

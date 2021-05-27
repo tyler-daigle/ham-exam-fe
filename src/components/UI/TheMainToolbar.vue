@@ -23,11 +23,6 @@
 export default {
   emits: ["viewQuestions", "viewSelected"],
   props: ["selected"],
-  data() {
-    return {
-      selectedItem: 0,
-    };
-  },
 };
 </script>
 
